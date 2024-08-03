@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { NetaGraph, RendererType } from "neta-render/es";
-import { XsMind } from "./xsmind";
+import { NoMind } from "./nomind";
 import { usePageSize } from "./effect";
 
 export default function MindPage() {
-  const appRef = useRef<XsMind>();
+  const appRef = useRef<NoMind>();
 
   const pageClientSize = usePageSize();
 
   useEffect(() => {
-    appRef.current = new XsMind({
+    appRef.current = new NoMind({
       el: document.getElementById("dom")!,
     });
 

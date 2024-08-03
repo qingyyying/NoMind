@@ -29,9 +29,9 @@ class Mind {
     this.netaRender.read({
       nodes: [
         {
-          id: "1",
+          id: "root",
           type: "headTitle",
-          text: "XtMind123131",
+          text: "nomind",
           width: 65,
           nodeState: [],
         },
