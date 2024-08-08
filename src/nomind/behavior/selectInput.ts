@@ -8,10 +8,11 @@ const mindSelectNode = {
     destroy() {},
     getEvents() {
       return {
-        "graphics:pointerdown": "onPointerDown",
+        "graphics:contextmenu": "onGraphicsContextMenu",
+        "graphics:click": "onPointerDown",
         "graphics:mouseenter": "onMouseEnter",
         "graphics:mouseout": "onMouseOut",
-        "canvas:pointerdown": "onCanvasDown",
+        "canvas:click": "onCanvasDown",
         "canvas:pointermove": "onCanvasMove",
         "canvas:pointerup": "onCanvasUp",
         keydown: "onKeyDown",
@@ -232,8 +233,11 @@ const mindSelectNode = {
 
         originThis.currentShape = null;
         originThis.currentNode = null;
-        originThis.hoverShape = null
+        originThis.hoverShape = null;
       }
+    },
+    onGraphicsContextMenu(evt) {
+
     },
   },
 };

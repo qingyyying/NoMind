@@ -1,4 +1,4 @@
-import { NetaGraph } from "neta-render";
+import { NetaGraph } from "neta-render/es";
 import { MIND_BEHAVIOR } from "./behavior";
 import { MIND_NODE, MIND_EDGE } from "./register";
 
@@ -16,7 +16,25 @@ class Mind {
           direction: "lr",
         },
       },
-      behaviors: ["wheel-canvas-move", "render-dynamic-element"],
+      behaviors: [
+        "wheel-canvas-move",
+        "render-dynamic-element",
+        {
+          key: "contextMenu",
+          options: {
+            menus: [
+              {
+                label: "自定义菜单1",
+                key: "1",
+              },
+              {
+                label: "自定义菜单244tttttt",
+                key: "2",
+              },
+            ],
+          },
+        },
+      ],
       register: {
         nodes: MIND_NODE,
         edges: MIND_EDGE,
@@ -40,7 +58,7 @@ class Mind {
     });
     this.netaRender.render();
 
-    this.netaRender.fitCenter()
+    this.netaRender.fitCenter();
   }
 
   destroy() {
