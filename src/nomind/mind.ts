@@ -1,10 +1,11 @@
 import { NetaGraph } from "neta-render/es";
 import { MIND_BEHAVIOR } from "./behavior";
 import { MIND_NODE, MIND_EDGE } from "./register";
+import { MENU_OPTIONS } from "./config";
 
 class Mind {
-  private netaRender: NetaGraph;
-  constructor(options: any) {
+  public netaRender: NetaGraph;
+  constructor(options: Record<string, any>) {
     const { el } = options;
     this.netaRender = new NetaGraph({
       rendererType: "canvas",
@@ -22,16 +23,7 @@ class Mind {
         {
           key: "contextMenu",
           options: {
-            menus: [
-              {
-                label: "自定义菜单1",
-                key: "1",
-              },
-              {
-                label: "自定义菜单244tttttt",
-                key: "2",
-              },
-            ],
+            menus: MENU_OPTIONS,
           },
         },
       ],
@@ -41,6 +33,7 @@ class Mind {
         behaviors: MIND_BEHAVIOR,
       },
     });
+    this.netaRender.on("contextmenu", this.contextmenuEvent);
   }
 
   render() {
@@ -62,7 +55,12 @@ class Mind {
   }
 
   destroy() {
+    this.netaRender.off("contextmenu", this.contextmenuEvent);
     this.netaRender.destroy();
+  }
+
+  contextmenuEvent(params) {
+    console.log("params: ", params);
   }
 }
 

@@ -9,16 +9,18 @@ const mindSelectNode = {
     getEvents() {
       return {
         "graphics:contextmenu": "onGraphicsContextMenu",
-        "graphics:click": "onPointerDown",
+        "graphics:pointerdown": "onPointerDown",
         "graphics:mouseenter": "onMouseEnter",
         "graphics:mouseout": "onMouseOut",
-        "canvas:click": "onCanvasDown",
+        "canvas:pointerdown": "onCanvasDown",
         "canvas:pointermove": "onCanvasMove",
         "canvas:pointerup": "onCanvasUp",
         keydown: "onKeyDown",
       };
     },
     onPointerDown(evt) {
+      // 右键就结束
+      if (evt.button === 2) return;
       const originThis = evt.originThis;
 
       const target = evt.target;
