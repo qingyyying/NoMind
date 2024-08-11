@@ -6,7 +6,6 @@ export function usePageSize() {
     return el ? { width: el.clientWidth, height: el.clientHeight } : undefined;
   });
 
-  console.log("state: ", state);
 
   useEffect(() => {
     const el = document.getElementById("root")!;

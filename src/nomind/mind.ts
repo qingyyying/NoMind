@@ -2,6 +2,7 @@ import { NetaGraph } from "neta-render/es";
 import { MIND_BEHAVIOR } from "./behavior";
 import { MIND_NODE, MIND_EDGE } from "./register";
 import { MENU_OPTIONS } from "./config";
+import { SDKLoader } from "./sdk";
 
 class Mind {
   public netaRender: NetaGraph;
@@ -33,6 +34,8 @@ class Mind {
         behaviors: MIND_BEHAVIOR,
       },
     });
+    console.log("this.netaRender: ", this.netaRender);
+
     this.netaRender.on("contextmenu", this.contextmenuEvent);
   }
 
@@ -59,8 +62,18 @@ class Mind {
     this.netaRender.destroy();
   }
 
-  contextmenuEvent(params) {
-    console.log("params: ", params);
+  contextmenuEvent(evt) {
+    const _this = this
+    const { menu } = evt;
+    // SDKLoader
+    const targetLoader = SDKLoader[menu?.key];
+    if (typeof targetLoader?.load !== "function") {
+      return;
+    }
+    targetLoader.load({
+      instance: _this,
+      target: evt.target,
+    });
   }
 }
 

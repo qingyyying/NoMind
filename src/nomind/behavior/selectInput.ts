@@ -1,3 +1,5 @@
+import { SDKKeys, SDKLoader } from "../sdk";
+
 const mindSelectNode = {
   name: "mind-select-node",
   render: {
@@ -67,39 +69,10 @@ const mindSelectNode = {
        * 新增节点
        */
       if (shape.name === "expand-circle") {
-        this.instance.model.nodes.forEach((node) => {
-          // 清除select
-          const selectIndex = node.nodeState?.indexOf("select");
-          if (typeof selectIndex == "number" && selectIndex > -1) {
-            node.nodeState.splice(selectIndex, 1);
-          }
-          // 清除input
-          const inputIndex = node.nodeState?.indexOf("input");
-          if (typeof inputIndex == "number" && inputIndex > -1) {
-            node.nodeState.splice(inputIndex, 1);
-          }
+        SDKLoader[SDKKeys.ADD_CHILD_NODE].load({
+          instance: this.instance,
+          target,
         });
-
-        const newNodeId = new Date().getTime();
-        this.instance.model.nodes.push({
-          id: `node-${newNodeId}`,
-          type: "content",
-          width: 65,
-          nodeState: [],
-        });
-        this.instance.model.edges.push({
-          id: `edge-${newNodeId}`,
-          source: target.parent.id,
-          target: `node-${newNodeId}`,
-          type: "mind-line",
-          sourceAnchor: 4,
-          targetAnchor: 3,
-          style: {
-            lineWidth: 4,
-            stroke: "#eca069",
-          },
-        });
-        this.instance.refresh();
       }
 
       originThis.currentShape = shape;
@@ -238,9 +211,7 @@ const mindSelectNode = {
         originThis.hoverShape = null;
       }
     },
-    onGraphicsContextMenu(evt) {
-
-    },
+    onGraphicsContextMenu(evt) {},
   },
 };
 

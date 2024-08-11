@@ -1,10 +1,12 @@
+import { SDKKeys } from "./sdk";
+
 export const MENU_OPTIONS = [
   {
     label: "新建子级",
-    key: "add_child_node",
+    key: SDKKeys.ADD_CHILD_NODE,
   },
   {
     label: "删除节点",
-    key: "delete_node",
+    key: SDKKeys.DELETE_NODE,
   },
 ];
