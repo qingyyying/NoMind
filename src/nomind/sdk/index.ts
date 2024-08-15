@@ -1,4 +1,5 @@
 import AddNode from './addNode'
+import DeleteNode from './deleteNode'
 
 export enum SDKKeys {
   // 新增节点
@@ -11,5 +12,8 @@ export enum SDKKeys {
 export const SDKLoader = {
   [SDKKeys.ADD_CHILD_NODE]: {
     load: AddNode
+  },
+  [SDKKeys.DELETE_NODE]: {
+    load: DeleteNode
   }
 }
