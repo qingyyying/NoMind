@@ -1,4 +1,6 @@
-function addNode(props) {
+import { ISdkProps } from "./type";
+
+function addNode(props: ISdkProps) {
   const { instance, target } = props;
 
   // 清除全部状态
@@ -22,6 +24,8 @@ function addNode(props) {
     type: "content",
     width: 65,
     nodeState: [],
+    x: undefined,
+    y: undefined
   });
   // 增加父级连线
   instance.model.edges.push({

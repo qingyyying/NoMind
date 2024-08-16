@@ -102,15 +102,14 @@ const mindSelectNode = {
     onMouseOut(evt) {
       const originThis = evt.originThis;
 
-      // hover一处去出bar
-      if (originThis.hoverShape) {
-        const node = getTargetNode(
-          this.instance.model.nodes,
-          originThis.hoverShape.id
-        );
+      const node = getTargetNode(
+        this.instance.model.nodes,
+        originThis.hoverShape?.id
+      );
 
+      // hover移出 去除bar
+      if (originThis.hoverShape && node) {
         const hoverIndex = node.nodeState?.indexOf("hover");
-
         if (typeof hoverIndex == "number" && hoverIndex > -1) {
           node.nodeState.splice(hoverIndex, 1);
           setTimeout(() => {
@@ -142,6 +141,8 @@ const mindSelectNode = {
     },
     onCanvasMove(evt) {
       const originThis = evt.originThis;
+
+      // 拖拽变换节点长度
       if (originThis?.currentShape?.name !== "drag-pointer") return;
       const endPoint = {
         x: evt.offsetX,
@@ -164,6 +165,14 @@ const mindSelectNode = {
         }
         const node = getTargetNode(this.instance.model.nodes, targetNode.id);
         node.width = offsetX / 4;
+        // 单个节点最小宽度
+        if(node.width <= 60) {
+          node.width = 60
+        }
+        // 单个节点最大宽度
+        if(node.width >= 160) {
+          node.width = 160
+        }
         this.instance.refresh();
       }
     },
@@ -175,6 +184,7 @@ const mindSelectNode = {
     onKeyDown(evt) {
       const originThis = evt.originThis;
 
+      // 删除节点
       if (evt.key === "Backspace" && evt.code === "Backspace") {
         const targetNodes = this.instance.model.nodes.filter((node) =>
           node.nodeState?.includes("select")
@@ -184,27 +194,11 @@ const mindSelectNode = {
           return;
         }
         const targetNode = targetNodes[0];
-        const [delNodes, delEdges] = seekTreeNodesEdges(
-          this.instance.model,
-          targetNode
-        );
-
-        const filterEdges = this.instance.model.edges.filter(
-          (e) => e.target === targetNode.id
-        );
-        filterEdges.forEach((te) => {
-          delEdges.push(te);
+  
+        SDKLoader[SDKKeys.DELETE_NODE].load({
+          instance: this.instance,
+          targetModel: targetNode
         });
-
-        const delNodeIds = delNodes.map((n) => n.id);
-        const delEdgeIds = delEdges.map((e) => e.id);
-        this.instance.model.nodes = this.instance.model.nodes.filter(
-          (n) => !delNodeIds.includes(n.id)
-        );
-        this.instance.model.edges = this.instance.model.edges.filter(
-          (e) => !delEdgeIds.includes(e.id)
-        );
-        this.instance.refresh();
 
         originThis.currentShape = null;
         originThis.currentNode = null;

@@ -1,32 +1,40 @@
+import { ISdkProps } from "./type";
 import { findTargetNodesAndEdges } from "./utils";
 
-export default function deleteNode(props) {
-  const { instance, target } = props;
-  console.log('target: ', target);
-  console.log('instance: ', instance);
-  const delNodeId = target.parent.id
-  const result = findTargetNodesAndEdges(instance.model, delNodeId)
-  console.log('result:++++ ', result);
+export default function deleteNode(props: ISdkProps) {
+  const { instance, target, targetModel } = props;
 
-  const nodes = instance.model.nodes?.filter(node => {
-    if(result.targetNodes.has(node.id)) {
-      return false
-    }
-    return true
-  })
+  const delNodeId = targetModel?.id ?? target?.parent?.id;
 
-  const edges = instance.model.edges?.filter(edge => {
-    if(result.targetEdges.has(edge.id)) {
-      return false
+  // 如果删除的是root节点，清除root的所有子节点
+  if (delNodeId === "root") {
+    instance.read({
+      nodes: instance.model.nodes?.filter((node) => node.id === "root"),
+      edges: [],
+    });
+    return;
+  }
+
+  // 搜索删除的节点和线
+  const result = findTargetNodesAndEdges(instance.model, delNodeId);
+
+  const nodes = instance.model.nodes?.filter((node) => {
+    if (result.targetNodes.has(node.id)) {
+      return false;
     }
-    return true
-  })
+    return true;
+  });
+
+  const edges = instance.model.edges?.filter((edge) => {
+    if (result.targetEdges.has(edge.id)) {
+      return false;
+    }
+    return true;
+  });
   const newModel = {
     nodes,
-    edges
-  }
-  console.log('newModel: ', newModel);
+    edges,
+  };
 
-
-  instance.read(newModel)
+  instance.read(newModel);
 }

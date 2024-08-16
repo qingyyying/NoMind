@@ -3,7 +3,6 @@ const mindLine = {
   render: {
     draw(action) {
       const config = action.inputProperties;
-      // console.log('config: ', config);
       const sourceModel = config.sourceModel;
 
       const targetModel = config.targetModel;
