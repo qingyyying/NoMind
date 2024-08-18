@@ -101,6 +101,7 @@ export class MindNode {
       });
     }
 
+    // hover 的时候增加的元素
     if (this.isHover) {
       this.action.addShape("rect", {
         x: this.shapeWidth,
@@ -109,7 +110,7 @@ export class MindNode {
         height: 6,
         style: {
           stroke: "transparent",
-          fill: "#8C80A7",
+          fill: "#9292f7",
         },
       });
 
@@ -117,12 +118,34 @@ export class MindNode {
         x: this.shapeWidth + 16,
         y: this.shapeHeight / 2 - 2,
         name: "expand-circle",
-        radius: 8,
+        radius: 10,
         style: {
           stroke: "transparent",
-          fill: "#8C80A7",
+          fill: "#9292f7",
         },
       });
+
+      this.action.addShape("polygon", {
+        x: this.shapeWidth + 10,
+        y: this.shapeHeight / 2 - 2,
+        name: "expand-add-icon",
+        points: [0, 0, 12, 0],
+        style: {
+          stroke: "#fff",
+          lineWidth: 3,
+        },
+      });
+      this.action.addShape("polygon", {
+        x: this.shapeWidth + 10,
+        y: this.shapeHeight / 2 - 8,
+        name: "expand-add-icon",
+        points: [6, 0, 6, 12],
+        style: {
+          stroke: "#fff",
+          lineWidth: 3,
+        },
+      });
+
     }
 
     if (this.isSelect) {

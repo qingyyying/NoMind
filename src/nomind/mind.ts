@@ -3,11 +3,16 @@ import { MIND_BEHAVIOR } from "./behavior";
 import { MIND_NODE, MIND_EDGE } from "./register";
 import { MENU_OPTIONS } from "./config";
 import { SDKLoader } from "./sdk";
+import { ToolBar } from "./tools";
 
 class Mind {
   public netaRender: NetaGraph;
+  public el: any;
+  private toolBar: ToolBar
+
   constructor(options: Record<string, any>) {
     const { el } = options;
+    this.el = el;
     this.netaRender = new NetaGraph({
       rendererType: "canvas",
       el,
@@ -36,6 +41,8 @@ class Mind {
     });
     console.log("this.netaRender: ", this.netaRender);
 
+    this.toolBar = new ToolBar(this.el)
+
     this.netaRender.on("contextmenu", this.contextmenuEvent);
   }
 
@@ -60,10 +67,12 @@ class Mind {
   destroy() {
     this.netaRender.off("contextmenu", this.contextmenuEvent);
     this.netaRender.destroy();
+
+    this.toolBar.destroy()
   }
 
   contextmenuEvent(evt) {
-    const _this = this
+    const _this = this;
     const { menu } = evt;
     // SDKLoader
     const targetLoader = SDKLoader[menu?.key];
@@ -75,6 +84,7 @@ class Mind {
       target: evt.target,
     });
   }
+
 }
 
 export default Mind;

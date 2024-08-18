@@ -68,6 +68,7 @@ const mindSelectNode = {
       /**
        * 新增节点
        */
+
       if (shape.name === "expand-circle") {
         SDKLoader[SDKKeys.ADD_CHILD_NODE].load({
           instance: this.instance,
